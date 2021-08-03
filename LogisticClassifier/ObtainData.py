@@ -8,13 +8,13 @@ import pandas as pd
 
 class ObtainData:
     
-    def __init__(self, directory, filename):
-        self.dir = directory
+    def __init__(self,filename):
         self.filename = filename
         
-    def load_from_dir_csv(self, file_dir):
-        #load csv with filename from directory (including the filename)
-        self.data = pd.read_csv(file_dir)
+        
+    def load_from_dir_csv(self):
+        self.data = pd.read_csv(self.filename)
+        return self.data
         
     #def create_mock_data(self):
         #Create data
