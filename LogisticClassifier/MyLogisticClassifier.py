@@ -5,48 +5,61 @@ Created on Tue Aug  3 12:06:44 2021
 @author: Suus ten Hage
 """
 
+import numpy as np
+
 class MyLogistiClassifier:
     '''Class to build a logistic regression binary classifier from scratch.
     
     Takes in features (X) and results (y) and returns trained model 
     parameters as well as accuracy on the test set.'''
     
-    def __init__(self, X, y, epochs = 1000, bs, alpha = 0.01,\
-                 normalize = True):
-        self.X = X
-        self.y = y
-        self.epochs = epochs #number of epochs
-        self.bs = bs #batch size
+    def __init__(self, it = 10000, alpha = 0.01, normalize = True):
+        self.iterations = it #number of iterations for gradient descent
         self.alpha = alpha #learning rate
         self.normalize = normalize #True if data needs Z-score normalization
-        self.losses = []
-        self.m = X.shape[0] #number of training examples
-        self.n = X.shape [1] #number of features
-        self.w = np.zeros((self.n,1)) #weight initialization
-        self.b = 0 #bias initialization
+        self.theta = np.zeros((self.n,1)) #weight initialization
+    
+    def normalize(self, X):
+        #Z-score normalization
+        for i in range(self.n):
+            X = (X - X.mean(axis = 0))/X.std(axis = 0)  
         
     def sigmoid(self, z):
         #Sigmoid hypothesis where z = Wx + b
-        return 1.0 / (1 + np.exp(-z))
+        return 1 / (1 + np.exp(-z))
     
-    def logistic_loss(self, y, y_est):
-        loss = -np.mean(y * (np.log(y_est)) - (1 - y) * np.log(1 - y_est)) \ 
-            + lambda / (2 * self.m)
-        return loss    
-        
-    def normalize(self)
-        for i in range(self.n):
-            X = (X - X.mean(axis = 0))/X.std(axis = 0)            
+    def logistic_loss(self, h, y):
+        loss = -np.mean(y * (np.log(h) - (1 - y) * np.log(1 - h)))
+        return loss 
     
-    def gradient_desc(self):
+    def gradients(self, X, h, y):
+        gradient = (1 / self.m) * np.dot(X.T, (h - y))
+        return gradient
+
+    def fit(self, X, y):
+        self.m = X.shape[0] #number of training examples
+        self.n = X.shape [1] #number of features
         
-        if self.normalize = True:
-                self.X = normalize(self.X)
-        for epoch in range(epochs):
+        #if data is not normalized yet, perform Z-score normalization
+        if self.normalize == True:
+             X = self.normalize(X)
             
-            #Calculate change in weights 
-            y_est = self.sigmoid(np.dot(xb, self.w) + self.b)
-            self.w = self.w - (self.alpha/ self.m) * \
-                np.dot(self.X.T, (y_est - self.y))
+        self.losses = [] #initialize losses list 
+        for it in range(self.iterations):
+            #calculate z and h with current weights 
+            z = np.dot(X, self.theta)
+            h = self.sigmoid(z)
+            
+            #update weights
+            self.theta -= self.alpha * self.gradient(X, h, y)
+            
+            #calculate z and h with new weights 
+            z = np.dot(X, self.theta)
+            h = self.sigmoid(z)   
+            
+            #calculate and store loss
+            losses[i] = self.loss(h, y)
+            
+            
     
     pass
