@@ -19,9 +19,9 @@ class MyLogisticClassifier:
         self.normalize = normalize #True if data needs Z-score normalization
     
     def Z_normalization(self, X):
-        #Z-score normalization
-        for i in range(self.n):
-            X = (X - X.mean(axis = 0))/X.std(axis = 0)  
+        #Z-score normalization  
+        X = (X - X.mean(axis = 0))/X.std(axis = 0)  
+        return X
         
     def sigmoid(self, z):
         #Sigmoid hypothesis where z = Wx + b
@@ -65,5 +65,4 @@ class MyLogisticClassifier:
         
         return self.theta, losses
             
-    
     pass

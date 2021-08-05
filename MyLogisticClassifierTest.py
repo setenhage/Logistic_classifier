@@ -17,7 +17,7 @@ X, y = make_classification(n_features = 2, n_redundant = 0,
 y = y.reshape(y.shape[0],1) #make sure y is proper size (m, 1) and not (m,)
 
 #apply logistic classifier to mock data
-model =  MyLogisticClassifier(iterations = 20000, alpha = 0.1, normalize = False)
+model =  MyLogisticClassifier(iterations = 20000, alpha = 0.1, normalize = True)
 [theta, losses] = model.fit(X,y)
 
 print(theta)
