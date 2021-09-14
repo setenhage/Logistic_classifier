@@ -7,6 +7,7 @@ Created on Sat Jul 31 14:19:44 2021
 
 from LogisticClassifier.MyLogisticClassifier import MyLogisticClassifier
 import pandas as pd
+import numpy as np
 from sklearn.datasets import make_classification
 
 #create mock data
@@ -16,12 +17,29 @@ X, y = make_classification(n_features = 2, n_redundant = 0,
 
 y = y.reshape(y.shape[0],1) #make sure y is proper size (m, 1) and not (m,)
 
-#apply logistic classifier to mock data
-model =  MyLogisticClassifier(iterations = 20000, alpha = 0.1, 
-                              normalize = False, fit_intercept = False)
-[theta, losses] = model.fit(X,y)
-pred = model.predict(X)
+#split data in test and train
+index = np.arange(100)
+np.random.shuffle(index)
+training, test = index[:80], index[80:]
 
+#m_train = math.floor(0.8 * X.shape[0])
+#index = random.sample(range(X.shape[0]), m_train)
+
+X_train = X[training,:]
+y_train = y[training]
+
+X_test = X[test,:]
+y_test = y[test]
+
+#apply logistic classifier to mock data
+model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, 
+                              normalize = False, fit_intercept = False)
+[theta, losses] = model.fit(X_train,y_train)
+
+pred = model.predict(X_test)
+
+accuracy = (pred == y_test).mean()
+print(accuracy)
 
 #load data
 #file = "C:/Users/Suzanne/Documents/Nanodegree_MLE/Log_reg_classifier/Data/titanic/train.csv"
@@ -33,7 +51,7 @@ pred = model.predict(X)
 
 
 #apply logistic classifier to test survival of the Titanic tragedy
-#urvival = MylogisticClassifier(data_train, data_test)
+#survival = MylogisticClassifier(data_train, data_test)
 
 
 
