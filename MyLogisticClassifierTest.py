@@ -6,6 +6,7 @@ Created on Sat Jul 31 14:19:44 2021
 """
 
 from LogisticClassifier.MyLogisticClassifier import MyLogisticClassifier
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from sklearn.datasets import make_classification
@@ -33,10 +34,15 @@ y_test = y[test]
 
 #apply logistic classifier to mock data
 model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, 
-                              normalize = False, fit_intercept = False)
-[theta, losses] = model.fit(X_train,y_train)
+                              normalize = False, fit_intercept = True)
+[theta, J] = model.fit(X_train,y_train)
 
-pred = model.predict(X_test)
+plt.plot(J)
+plt.ylabel('losses')
+plt.show()
+
+
+pred = model.predict(X_test, theta)
 
 accuracy = (pred == y_test).mean()
 print(accuracy)

@@ -35,9 +35,9 @@ class MyLogisticClassifier:
         sig = 1 / (1 + np.exp(-z))
         return sig
     
-    def logistic_loss(self, h, y):
-        loss = -np.mean(y * (np.log(h) - (1 - y) * np.log(1 - h)))
-        return loss 
+    def logistic_cost(self, h, y):
+        cost = -np.mean(y * (np.log(h) - (1 - y) * np.log(1 - h)))
+        return cost 
     
     def gradients(self, X, h, y):
         gradient = (1 / self.m) * np.dot(X.T, (h - y))
@@ -48,17 +48,19 @@ class MyLogisticClassifier:
         #Add intercept if necessary
         if self.fit_intercept == True:
             X = self.add_intercept(X)
-        
+
         self.m = X.shape[0] #number of training examples
         self.n = X.shape[1] #number of features
-        self.theta = np.zeros((self.n,1)) #weight initialization
+        #self.theta = np.zeros((self.n,1)) #weight initialization
+        self.theta = np.random.random((self.n,1)) #weight initialization
+        print(self.theta)
         
         #if data is not normalized yet, perform Z-score normalization
         if self.normalize == True:
              X = self.Z_normalization(X)
              
         #initialize losses list    
-        losses = [None] * self.iterations 
+        costs = [None] * self.iterations 
         
         #Gradient descent
         for it in range(self.iterations):
@@ -74,24 +76,27 @@ class MyLogisticClassifier:
             h = self.sigmoid(z)   
             
             #calculate and store loss
-            losses[it] = self.logistic_loss(h, y)
+            costs[it] = self.logistic_cost(h, y)
         
-        return self.theta, losses
+        return self.theta, costs
     
-    def predict(self, X):
-
+    def predict(self, X, theta):
+        
+        if self.fit_intercept == True:
+            X = self.add_intercept(X)
+            
         #if data is not normalized yet, perform Z-score normalization
         if self.normalize == True:
              X = self.Z_normalization(X)   
              
         #Calculate class probabilities
-        probabilities = self.sigmoid(np.dot(X, self.theta))
-        print(probabilities)
+        probabilities = self.sigmoid(np.dot(X, theta))
         
-        #predict class
-        predict_class = []
-        predict_class = [1 if i > 0.5 else 0 for i in probabilities]
+        #predict classes
+        predict_class = np.zeros((self.n,1))
+        predict_class = np.array([1 if i > 0.5 else 0 for i in probabilities])
+        predict_class = predict_class.reshape(predict_class.shape[0],1)
         
-        return np.array(predict_class)    
+        return predict_class   
     
     pass
