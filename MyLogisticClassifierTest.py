@@ -31,7 +31,7 @@ X_test = X[test,:]
 y_test = y[test]
 
 #apply logistic classifier to mock data
-model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, 
+model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, Lambda = 0.5,
                               normalize = False, fit_intercept = True)
 [theta, J] = model.fit(X_train,y_train)
 
@@ -64,7 +64,7 @@ X_test = X[test,:]
 y_test = y[test]
 
 #apply logistic classifier to mock data
-model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, 
+model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, Lambda = 0.5,
                               normalize = False, fit_intercept = True)
 [theta, J] = model.fit(X_train,y_train)
 

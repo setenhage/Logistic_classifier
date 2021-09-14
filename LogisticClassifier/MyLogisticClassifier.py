@@ -13,12 +13,13 @@ class MyLogisticClassifier:
     Takes in features (X) and results (y) and returns trained model 
     parameters as well as accuracy on the test set.'''
     
-    def __init__(self, iterations = 10000, alpha = 0.01, normalize = True, 
-                 fit_intercept = True):
+    def __init__(self, iterations = 10000, alpha = 0.01, Lambda = 0.5, 
+                 normalize = True, fit_intercept = True):
         self.iterations = iterations #number of iterations for gradient descent
         self.alpha = alpha #learning rate
+        self.Lambda = Lambda #regularization
         self.normalize = normalize #True if data needs Z-score normalization
-        self.fit_intercept = fit_intercept
+        self.fit_intercept = fit_intercept #True if data intercepts needs fitting
     
     def Z_normalization(self, X):
         #Z-score normalization: (X - mean) / stdev 
@@ -36,11 +37,13 @@ class MyLogisticClassifier:
         return sig
     
     def logistic_cost(self, h, y):
-        cost = -np.mean(y * (np.log(h) - (1 - y) * np.log(1 - h)))
+        cost = -np.mean(y * (np.log(h) - (1 - y) * np.log(1 - h))) + \
+            (self.Lambda/ 2)* np.sum(np.dot(self.theta, self.theta.T))
         return cost 
     
     def gradients(self, X, h, y):
-        gradient = (1 / self.m) * np.dot(X.T, (h - y))
+        gradient = (1 / self.m) * np.dot(X.T, (h - y)) + \
+            np.sum((self.Lambda/ self.m ) * self.theta)
         return gradient
 
     def fit(self, X, y):
@@ -52,7 +55,6 @@ class MyLogisticClassifier:
         self.m = X.shape[0] #number of training examples
         self.n = X.shape[1] #number of features
         self.theta = np.random.random((self.n,1)) #weight initialization
-        print(self.theta)
         
         #if data is not normalized yet, perform Z-score normalization
         if self.normalize == True:
