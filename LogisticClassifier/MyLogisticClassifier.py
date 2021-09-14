@@ -51,7 +51,6 @@ class MyLogisticClassifier:
 
         self.m = X.shape[0] #number of training examples
         self.n = X.shape[1] #number of features
-        #self.theta = np.zeros((self.n,1)) #weight initialization
         self.theta = np.random.random((self.n,1)) #weight initialization
         print(self.theta)
         
