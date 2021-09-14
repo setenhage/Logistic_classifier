@@ -17,11 +17,11 @@ X, y = make_classification(n_features = 2, n_redundant = 0,
 y = y.reshape(y.shape[0],1) #make sure y is proper size (m, 1) and not (m,)
 
 #apply logistic classifier to mock data
-model =  MyLogisticClassifier(iterations = 20000, alpha = 0.1, normalize = True)
+model =  MyLogisticClassifier(iterations = 20000, alpha = 0.1, 
+                              normalize = False, fit_intercept = False)
 [theta, losses] = model.fit(X,y)
+pred = model.predict(X)
 
-print(theta)
-print(len(losses))
 
 #load data
 #file = "C:/Users/Suzanne/Documents/Nanodegree_MLE/Log_reg_classifier/Data/titanic/train.csv"
