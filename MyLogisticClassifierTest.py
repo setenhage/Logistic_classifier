@@ -7,7 +7,6 @@ Created on Sat Jul 31 14:19:44 2021
 
 from LogisticClassifier.MyLogisticClassifier import MyLogisticClassifier
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
 from sklearn.datasets import make_classification
 
@@ -23,9 +22,6 @@ index = np.arange(100)
 np.random.shuffle(index)
 training, test = index[:80], index[80:]
 
-#m_train = math.floor(0.8 * X.shape[0])
-#index = random.sample(range(X.shape[0]), m_train)
-
 X_train = X[training,:]
 y_train = y[training]
 
@@ -37,27 +33,19 @@ model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01,
                               normalize = False, fit_intercept = True)
 [theta, J] = model.fit(X_train,y_train)
 
+#plot the costs curve
 plt.plot(J)
 plt.ylabel('losses')
 plt.show()
 
-
+#make predictions
 pred = model.predict(X_test, theta)
 
+#calculate prediction accuracy 
 accuracy = (pred == y_test).mean()
 print(accuracy)
 
-#load data
-#file = "C:/Users/Suzanne/Documents/Nanodegree_MLE/Log_reg_classifier/Data/titanic/train.csv"
-#data_train = pd.read_csv(file)
-#file = "C:/Users/Suzanne/Documents/Nanodegree_MLE/Log_reg_classifier/Data/titanic/test.csv"
-#data_test = pd.read_csv(file)
 
-#Split data in X and y 
-
-
-#apply logistic classifier to test survival of the Titanic tragedy
-#survival = MylogisticClassifier(data_train, data_test)
 
 
 
