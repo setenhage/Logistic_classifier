@@ -20,7 +20,7 @@ X, y = make_classification(n_features = 2, n_redundant = 0,
 y = y.reshape(y.shape[0],1) #make sure y is proper size (m, 1) and not (m,)
 
 #split data in test and train
-index = np.arange(100)
+index = np.arange(X.shape[0])
 np.random.shuffle(index)
 training, test = index[:80], index[80:]
 
@@ -64,7 +64,7 @@ X_test = X[test,:]
 y_test = y[test]
 
 #apply logistic classifier to mock data
-model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, Lambda = 0.5,
+model =  MyLogisticClassifier(iterations = 20000, alpha = 0.01, Lambda = 0,
                               normalize = False, fit_intercept = True)
 [theta, J] = model.fit(X_train,y_train)
 
