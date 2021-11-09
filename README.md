@@ -1,2 +1,2 @@
 # Logistic_classifier
-Binary classifier package using logistic regression (titanic dataset)
+Binary classifier using logistic regression, used it to create a Kaggle submission on the titanic dataset. 
